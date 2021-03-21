@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\User;
+
+class UserRepository implements UserRepositoryInterface
+{
+    
+    public function create(array $data): array
+    {
+        $user = User::create($data);
+        return $user->toArray();
+    }
+
+    public function list(?string $q): array
+    {
+        if (isset($q)) {
+            $users = User::where('full_name', 'like', "%{$q}%")->get();
+        } else {
+            $users = User::all();
+        }
+        
+        return $users->toArray();
+    }
+
+    public function show(int $id): array
+    {
+        return User::findOrFail($id)->toArray();
+    }
+
+}
