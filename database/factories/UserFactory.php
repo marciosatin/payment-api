@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'password' => '7asklkjs98742389((879ssjhkkKKjsj3@@12fd7',
             'balance' => $this->faker->randomFloat(2, 10, 10000),
-            'cpf_cnpj' => (string) $this->faker->randomNumber(14),
+            'cpf' => strval(rand(10000000000, 99999999999))
         ];
     }
 }

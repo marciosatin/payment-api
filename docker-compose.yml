@@ -14,9 +14,9 @@ services:
   nginx:
     container_name: nginx
     build: images/nginx
+    volumes:
+      - ./:/usr/share/nginx/html/
     command: nginx -g "daemon off;"
-    links:
-      - php
     ports:
       - "80:80"
     depends_on:
@@ -26,11 +26,8 @@ services:
     container_name: php
     build: images/php
     volumes:
-      - ./:/var/www/html
-    working_dir: /var/www/html/public
+      - ./:/usr/share/nginx/html/
     command: php-fpm
-    links:
-      - db:db
     ports:
       - "9000:9000"
     depends_on:

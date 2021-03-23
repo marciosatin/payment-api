@@ -3,16 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/marcio/Documentos/app-pagamentos/docker-compose.yml</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/routes/web.php</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/public/index.php</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/images/php/Dockerfile</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/app/Http/Controllers/ExampleController.php</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/app/Http/Controllers/Controller.php</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/bootstrap/app.php</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/public/.htaccess</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/images/nginx/Dockerfile</file>
-            <file>file:/home/marcio/Documentos/app-pagamentos/routes/api.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/.gitignore</file>
         </group>
     </open-files>
 </project-private>

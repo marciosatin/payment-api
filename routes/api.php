@@ -26,3 +26,7 @@ $router->group(['prefix' => 'users'], function () use ($router) {
     
     $router->post('/sellers', 'SellerController@store');
 });
+
+$router->group(['prefix' => 'transactions'], function () use ($router) {
+    $router->post('', 'TransactionController@create');
+});

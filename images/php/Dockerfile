@@ -10,3 +10,11 @@ RUN curl "https://getcomposer.org/installer" > composer-setup.php && php compose
 
 # Configurando timezone do container
 RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/timezone
+
+# Criando um usuário comum com permissão de root
+RUN useradd -ms /bin/bash default
+RUN usermod -aG sudo default
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+WORKDIR /usr/share/nginx/html
+USER default

@@ -46,7 +46,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function type()
     {
-        $this->hasOne(UserType::class);
+        return $this->hasOne(UserType::class, 'id', 'id_type');
     }
 
 }
