@@ -43,7 +43,7 @@ class UserController extends Controller
      * Show a specific user.
      *
      * @param int $id
-     * @return JsonResponse2
+     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {

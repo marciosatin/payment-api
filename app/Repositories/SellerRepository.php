@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Seller;
 use App\Models\User;
+use App\Models\UserType;
 use Exception;
 
 class SellerRepository implements SellerRepositoryInterface
@@ -14,7 +15,7 @@ class SellerRepository implements SellerRepositoryInterface
         
         try {
             $user = User::find($data['id_user']);
-            if ($user->type->type_name == 'comum') {
+            if ($user->type->type_name == UserType::TYPE_COMUM) {
                 throw new Exception('User must be a user type lojista');
             }
 
