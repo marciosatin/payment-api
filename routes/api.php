@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use Laravel\Lumen\Routing\Router;
 
 /** @var Router $router */
 
@@ -27,6 +27,6 @@ $router->group(['prefix' => 'users'], function () use ($router) {
     $router->post('/sellers', 'SellerController@store');
 });
 
-$router->group(['prefix' => 'transactions'], function () use ($router) {
+$router->group(['prefix' => 'transactions', 'middleware' => 'transactionAuth'], function () use ($router) {
     $router->post('', 'TransactionController@create');
 });

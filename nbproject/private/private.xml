@@ -3,7 +3,35 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/marcio/Documentos/payment-api/app/Repositories/SellerRepositoryInterface.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/nbproject/project.xml</file>
+            <file>file:/home/marcio/Documentos/payment-api/nbproject/private/private.properties</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Models/UserType.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Repositories/SellerRepository.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Http/Controllers/TransactionController.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/routes/api.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/images/nginx/Dockerfile</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Models/User.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/database/seeders/DatabaseSeeder.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Http/Controllers/UserController.php</file>
             <file>file:/home/marcio/Documentos/payment-api/.gitignore</file>
+            <file>file:/home/marcio/Documentos/payment-api/images/nginx/nginx.conf</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Http/Controllers/SellerController.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/docker-compose.yml</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Repositories/UserRepository.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/database/factories/UserFactory.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/nbproject/project.properties</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Services/TransactionService.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Models/Seller.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/public/index.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/nbproject/private/private.xml</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Http/Controllers/Controller.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/database/seeders/UsersTypesSeeder.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Http/Middleware/ExampleMiddleware.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Models/Transaction.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/app/Http/Middleware/Authenticate.php</file>
+            <file>file:/home/marcio/Documentos/payment-api/nbproject/private/config.properties</file>
+            <file>file:/home/marcio/Documentos/payment-api/images/php/Dockerfile</file>
         </group>
     </open-files>
 </project-private>

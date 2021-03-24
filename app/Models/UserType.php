@@ -10,6 +10,9 @@ class UserType extends Model
 
     use HasFactory;
     
+    const TYPE_COMUM = 'comum';
+    const TYPE_LOJISTA = 'lojista';
+    
     
     protected $table = 'users_types';
     

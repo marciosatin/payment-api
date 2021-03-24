@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Validator;
 use function response;
 
 class UserController extends Controller
@@ -42,25 +43,30 @@ class UserController extends Controller
      * Show a specific user.
      *
      * @param int $id
-     * @return JsonResponse
+     * @return JsonResponse2
      */
     public function show(int $id): JsonResponse
     {
         $validator = Validator::make(['id' => $id], [
-            'id' => 'required|integer',
+                    'id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
-            return $validator->errors()->toArray();
+            return $this->responseErrorClient($validator->errors()->toArray());
         }
-        
+
         try {
             return response()->json($this->user->show($id));
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                        'code' => '404',
-                        'message' => 'User not found',
-                            ], 404);
+            return $this->responseErrorClient([
+                        'code' => Response::HTTP_NOT_FOUND,
+                        'message' => 'User not found'],
+                            Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return $this->responseErrorServer([
+                        'code' => '500',
+                        'message' => 'Unknown server error'
+            ]);
         }
     }
 
@@ -70,23 +76,29 @@ class UserController extends Controller
      * @param Request $request
      * @return array
      */
-    public function store(Request $request): array
+    public function store(Request $request): JsonResponse
     {
 
         $validator = Validator::make($request->all(), [
-            'full_name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-            'cpf' => 'required|string|min:11|max:11|unique:users,cpf',
-            'id_type' => 'required|exists:users_types,id'
+                    'full_name' => 'required|string',
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required|string|min:6',
+                    'cpf' => 'required|string|min:11|max:11|unique:users,cpf',
+                    'id_type' => 'required|exists:users_types,id'
         ]);
 
         if ($validator->fails()) {
-            return $validator->errors()->toArray();
+            return $this->responseErrorClient($validator->errors()->toArray());
         }
 
-
-        return $this->user->create($request->all());
+        try {
+            return response()->json($this->user->create($request->all()));
+        } catch (\Exception $exc) {
+            return $this->responseErrorServer([
+                        'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                        'message' => 'Unknown server error'
+            ]);
+        }
     }
 
 }

@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Exceptions\InvalidTransactionException;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserType;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -12,39 +14,50 @@ class TransactionService
 
     public function create(array $data)
     {
-
+        
         try {
             DB::beginTransaction();
-            
+
+            $value = floatval($data['value']);
+            if ($value <= 0) {
+                throw new InvalidTransactionException('The value must be greater than 0');
+            }
+
             $payer = User::find($data['payer_id']);
             $payee = User::find($data['payee_id']);
-            
-            if ($payer->type->type_name == 'lojista') {
-                throw new Exception('Transaction not allowed for that user');
+
+            if ($payer->type->type_name == UserType::TYPE_LOJISTA) {
+                throw new InvalidTransactionException('Transaction not allowed for that user');
             }
-            
+
             if ($payer->id == $payee->id) {
-                throw new Exception('Invalid transaction for payer and payee');
-            }
-            
-            if ($payer->balance < floatval($data['value'])) {
-                throw new Exception('Insufficient funds for payer');
+                throw new InvalidTransactionException('Invalid transaction for payer and payee');
             }
 
-            $transaction = Transaction::create($data);
+            if ($payer->balance < $value) {
+                throw new InvalidTransactionException('Insufficient funds for payer');
+            }
 
-            $payer->balance -= $data['value'];
+            $transaction = Transaction::create([
+                'payer_id' => $payer->id,
+                'payee_id' => $payee->id,
+                'value' => $value
+            ]);
+
+            $payer->balance -= $value;
             $payer->save();
 
-            $payee->balance += $data['value'];
+            $payee->balance += $value;
             $payee->save();
+            
+            if (!NotificationService::send($payee)) {
+                //add in queue
+            }
 
             DB::commit();
         } catch (Exception $exc) {
             DB::rollBack();
-            return [
-                'message' => $exc->getMessage()
-            ];
+            throw $exc;
         }
 
         return $transaction->toArray();

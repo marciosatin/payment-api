@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\SellerRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -31,7 +32,7 @@ class SellerController extends Controller
      * @param Request $request
      * @return array
      */
-    public function store(Request $request): array
+    public function store(Request $request): JsonResponse
     {
 
         $validator = Validator::make($request->all(), [
@@ -40,11 +41,11 @@ class SellerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $validator->errors()->toArray();
+            return $this->responseErrorClient($validator->errors()->toArray());
         }
 
 
-        return $this->seller->create($request->all());
+        return response()->json($this->seller->create($request->all()));
     }
 
 }
