@@ -3,6 +3,15 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# NetBeans specific #
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/
