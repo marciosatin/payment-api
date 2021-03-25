@@ -10,28 +10,22 @@ class UserTest extends TestCase
     use DatabaseMigrations;
     
     private $userRepository;
+    
+    private $userFactory;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->userRepository = $this->app->make('App\Repositories\UserRepository');
+        $this->userFactory = $this->app->make('Database\Factories\UserFactory');
     }
 
     public function testCreateSellerUser()
     {
-        $typeLojista = UserType::create([
-                    'type_name' => UserType::TYPE_LOJISTA
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_LOJISTA]);
+        $userData = $this->getDataUserByType(UserType::TYPE_COMUM);
 
-        $responseData = $this->userRepository->create([
-            'full_name' => 'user lojista',
-            'email' => 'userlojista@email.com',
-            'cpf' => '00665489977',
-            'password' => 'teste',
-            'id_type' => $typeLojista->id
-        ]);
+        $responseData = $this->userRepository->create($userData);
 
         $this->seeInDatabase('users', [
             'cpf' => $responseData['cpf'],
@@ -41,18 +35,9 @@ class UserTest extends TestCase
 
     public function testCreateComumUser()
     {
-        $typeComum = UserType::create([
-                    'type_name' => UserType::TYPE_COMUM
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_COMUM]);
+        $userData = $this->getDataUserByType(UserType::TYPE_COMUM);
 
-        $responseData = $this->userRepository->create([
-            'full_name' => 'user comum',
-            'email' => 'usercomum@email.com',
-            'cpf' => '89545612321',
-            'password' => 'teste123',
-            'id_type' => $typeComum->id
-        ]);
+        $responseData = $this->userRepository->create($userData);
 
         $this->seeInDatabase('users', [
             'cpf' => $responseData['cpf'],
@@ -62,24 +47,13 @@ class UserTest extends TestCase
 
     public function testCreateUserDuplicateCpf()
     {
-        $typeComum = UserType::create([
-                    'type_name' => UserType::TYPE_COMUM
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_COMUM]);
+        $userData = $this->getDataUserByType(UserType::TYPE_COMUM);
 
-        $dataUser = [
-            'full_name' => 'user comum',
-            'email' => 'usercomum1@email.com',
-            'cpf' => '89545612321',
-            'password' => 'teste123',
-            'id_type' => $typeComum->id
-        ];
+        $this->userRepository->create($userData);
 
-        $this->userRepository->create($dataUser);
+        $userData['email'] = 'usercomum2@email.com';
 
-        $dataUser['email'] = 'usercomum2@email.com';
-
-        $this->json('POST', '/users', $dataUser)
+        $this->json('POST', '/users', $userData)
                 ->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
                     'cpf' => ['The cpf has already been taken.'],
@@ -88,28 +62,33 @@ class UserTest extends TestCase
 
     public function testCreateUserDuplicateEmail()
     {
-        $typeComum = UserType::create([
-                    'type_name' => UserType::TYPE_COMUM
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_COMUM]);
+        $userData = $this->getDataUserByType(UserType::TYPE_COMUM);
 
-        $dataUser = [
-            'full_name' => 'user comum',
-            'email' => 'usercomum1@email.com',
-            'cpf' => '89545612321',
-            'password' => 'teste123',
-            'id_type' => $typeComum->id
-        ];
+        $this->userRepository->create($userData);
 
-        $this->userRepository->create($dataUser);
+        $userData['cpf'] = '89545612322';
 
-        $dataUser['cpf'] = '89545612322';
-
-        $this->json('POST', '/users', $dataUser)
+        $this->json('POST', '/users', $userData)
                 ->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
                     'email' => ['The email has already been taken.'],
         ]);
+    }
+
+    private function getDataUserByType(string $typeName)
+    {
+        $typeComum = UserType::create([
+                    'type_name' => $typeName
+        ]);
+        $this->seeInDatabase('users_types', ['type_name' => $typeName]);
+
+        $user = $this->userFactory->make();
+        $user->id_type = $typeComum->id;
+
+        $userData = $user->toArray();
+        $userData['password'] = 'teste123';
+
+        return $userData;
     }
 
 }

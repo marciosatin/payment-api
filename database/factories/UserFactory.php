@@ -13,7 +13,7 @@ class UserFactory extends Factory
      * @var string
      */
     protected $model = User::class;
-
+    
     /**
      * Define the model's default state.
      *
@@ -24,9 +24,10 @@ class UserFactory extends Factory
         return [
             'full_name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'password' => '7asklkjs98742389((879ssjhkkKKjsj3@@12fd7',
+            'password' => \Illuminate\Support\Facades\Hash::make('fkdskskUUskd89s8d8fsdjhfkstyry'),
             'balance' => $this->faker->randomFloat(2, 10, 10000),
             'cpf' => strval(rand(10000000000, 99999999999))
         ];
     }
+
 }
