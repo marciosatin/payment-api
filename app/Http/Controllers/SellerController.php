@@ -7,11 +7,11 @@ use App\Repositories\SellerRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Exception;
 use Validator;
 
 class SellerController extends Controller
 {
+
     /**
      * @var SellerRepositoryInterface
      */
@@ -37,26 +37,25 @@ class SellerController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        $validator = Validator::make($request->all(), [
-                    'cnpj' => 'required|string|min:14|max:14|unique:sellers,cnpj',
-                    'id_user' => 'required|exists:users,id'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->responseErrorClient($validator->errors()->toArray());
-        }
-
         try {
+            $validator = Validator::make($request->all(), [
+                        'cnpj' => 'required|string|min:14|max:14|unique:sellers,cnpj',
+                        'id_user' => 'required|exists:users,id'
+            ]);
+
+            if ($validator->fails()) {
+                return $this->responseErrorClient($validator->errors()->toArray());
+            }
+
             return response()->json($this->seller->create($request->all()));
         } catch (InvalidSellerTypeException $exc) {
             return $this->responseErrorClient([
-                        'code' => Response::HTTP_BAD_REQUEST,
-                        'message' => $exc->getMessage()
+                        'id_user' => [$exc->getMessage()]
             ]);
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             return $this->responseErrorServer([
                         'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                        'message' => $exc->getMessage()
+                        'message' => 'Unknown server error'
             ]);
         }
     }

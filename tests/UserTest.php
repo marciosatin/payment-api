@@ -23,7 +23,7 @@ class UserTest extends TestCase
 
     public function testCreateSellerUser()
     {
-        $userData = $this->getDataUserByType(UserType::TYPE_COMUM);
+        $userData = $this->getDataUserByType(UserType::TYPE_LOJISTA);
 
         $responseData = $this->userRepository->create($userData);
 
@@ -72,6 +72,15 @@ class UserTest extends TestCase
                 ->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
                     'email' => ['The email has already been taken.'],
+        ]);
+    }
+    
+    public function testShowUserNotFound()
+    {
+        $this->json('GET', '/users/0', [])
+                ->seeStatusCode(Response::HTTP_NOT_FOUND)
+                ->seeJsonEquals([
+                    'user' => ['User not found'],
         ]);
     }
 

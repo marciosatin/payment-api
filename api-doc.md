@@ -43,10 +43,16 @@ POST `/users`
 #### Response 400
 ```json
 {
-	"email": ["The email has already been taken."],
-	"cpf": ["The cpf has already been taken."]
+	"email": [
+	  "The email has already been taken."
+	],
+	"cpf": [
+	  "The cpf has already been taken.",
+      "The cpf must be at least 11 characters."
+	]
 }
 ```
+
 
 **Listar usuário**
 
@@ -81,10 +87,12 @@ GET `/users`
 #### Response 404
 ```json
 {
-    "code": 404,
-    "message": "User not found"
+    "user": [
+        "User not found"
+    ]
 }
 ```
+
 
 **Cadastrar lojista**
 
@@ -113,19 +121,17 @@ POST `/users/sellers`
 #### Response 400
 ```json
 {
-    "code": 400,
-    "message": "User must be a user type lojista"
-}
-{
     "cnpj": [
         "The cnpj has already been taken.",
         "The cnpj must be at least 14 characters."
     ],
     "id_user": [
-        "The selected id user is invalid."
+        "The selected id user is invalid.",
+        "User must be a user type lojista"
     ]
 }
 ```
+
 
 ### Transferências
 
@@ -160,20 +166,29 @@ POST `/transactions`
 #### Response 400
 ```json
 {
-    "code": 400,
-    "message": "Insufficient funds for payer"
+    "transaction": [
+        "Insufficient funds for payer",
+        "Invalid transaction for payer and payee",
+        "Transaction not allowed for that user"
+    ]
 }
 {
-    "code": 400,
-    "message": "Invalid transaction for payer and payee"
-}
-{
-    "code": 400,
-    "message": "Transaction not allowed for that user"
-}
-{
+    "payer_id": [
+        "The selected payer id is invalid."
+    ],
+    "payee_id": [
+        "The selected payee id is invalid."
+    ]
     "value": [
         "The value must be greater than 0."
+    ]
+}
+```
+#### Response 401
+```json
+{
+    "transaction": [
+        "Unauthorized transaction"
     ]
 }
 ```

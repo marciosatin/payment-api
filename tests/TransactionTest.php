@@ -70,8 +70,7 @@ class TransactionTest extends TestCase
                     'value' => 1
                 ])->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
-                    'code' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Invalid transaction for payer and payee'
+                    'transaction' => ['Invalid transaction for payer and payee']
         ]);
     }
 
@@ -86,8 +85,7 @@ class TransactionTest extends TestCase
                     'value' => 1
                 ])->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
-                    'code' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Transaction not allowed for that user'
+                    'transaction' => ['Transaction not allowed for that user']
         ]);
     }
 
@@ -129,8 +127,7 @@ class TransactionTest extends TestCase
                     'value' => 1
                 ])->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
-                    'code' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Insufficient funds for payer'
+                    'transaction' => ['Insufficient funds for payer']
         ]);
     }
 

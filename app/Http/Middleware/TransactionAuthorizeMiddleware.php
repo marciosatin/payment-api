@@ -22,8 +22,7 @@ class TransactionAuthorizeMiddleware
 
         if (!AuthorizingExternalService::isAuthorized()) {
             return response()->json([
-                'code' => Response::HTTP_UNAUTHORIZED,
-                'message' => 'Unauthorized transaction'
+                'transaction' => ['Unauthorized transaction']
             ], Response::HTTP_UNAUTHORIZED);
         }
 

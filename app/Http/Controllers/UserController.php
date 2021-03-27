@@ -12,6 +12,7 @@ use function response;
 
 class UserController extends Controller
 {
+
     /**
      * @var UserRepositoryInterface
      */
@@ -34,9 +35,16 @@ class UserController extends Controller
      * @param Request $request
      * @return array
      */
-    public function index(Request $request): array
+    public function index(Request $request): JsonResponse
     {
-        return $this->user->list($request->get('q'));
+        try {
+            return response()->json($this->user->list($request->get('q')));
+        } catch (\Exception $exc) {
+            return $this->responseErrorServer([
+                        'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                        'message' => 'Unknown server error'
+            ]);
+        }
     }
 
     /**
@@ -47,24 +55,23 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $validator = Validator::make(['id' => $id], [
-                    'id' => 'required|integer',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->responseErrorClient($validator->errors()->toArray());
-        }
-
         try {
+            $validator = Validator::make(['id' => $id], [
+                        'id' => 'required|integer',
+            ]);
+
+            if ($validator->fails()) {
+                return $this->responseErrorClient($validator->errors()->toArray());
+            }
+
             return response()->json($this->user->show($id));
         } catch (ModelNotFoundException $e) {
             return $this->responseErrorClient([
-                        'code' => Response::HTTP_NOT_FOUND,
-                        'message' => 'User not found'],
+                        'user' => ['User not found']],
                             Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             return $this->responseErrorServer([
-                        'code' => '500',
+                        'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
                         'message' => 'Unknown server error'
             ]);
         }
@@ -79,19 +86,19 @@ class UserController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        $validator = Validator::make($request->all(), [
-                    'full_name' => 'required|string',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required|string|min:6',
-                    'cpf' => 'required|string|min:11|max:11|unique:users,cpf',
-                    'id_type' => 'required|exists:users_types,id'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->responseErrorClient($validator->errors()->toArray());
-        }
-
         try {
+            $validator = Validator::make($request->all(), [
+                        'full_name' => 'required|string',
+                        'email' => 'required|email|unique:users,email',
+                        'password' => 'required|string|min:6',
+                        'cpf' => 'required|string|min:11|max:11|unique:users,cpf',
+                        'id_type' => 'required|exists:users_types,id'
+            ]);
+
+            if ($validator->fails()) {
+                return $this->responseErrorClient($validator->errors()->toArray());
+            }
+
             return response()->json($this->user->create($request->all()));
         } catch (\Exception $exc) {
             return $this->responseErrorServer([

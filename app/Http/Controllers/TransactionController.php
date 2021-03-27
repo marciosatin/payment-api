@@ -11,6 +11,7 @@ use Validator;
 
 class TransactionController extends Controller
 {
+
     /**
      * @var TransactionService
      */
@@ -36,22 +37,21 @@ class TransactionController extends Controller
     public function create(Request $request): JsonResponse
     {
 
-        $validator = Validator::make($request->all(), [
-                    'payer_id' => 'required|exists:users,id',
-                    'payee_id' => 'required|exists:users,id',
-                    'value' => 'required|gt:0'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->responseErrorClient($validator->errors()->toArray());
-        }
-
         try {
+            $validator = Validator::make($request->all(), [
+                        'payer_id' => 'required|exists:users,id',
+                        'payee_id' => 'required|exists:users,id',
+                        'value' => 'required|gt:0'
+            ]);
+
+            if ($validator->fails()) {
+                return $this->responseErrorClient($validator->errors()->toArray());
+            }
+
             return response()->json($this->transaction->create($request->all()));
         } catch (InvalidTransactionException $exc) {
             return $this->responseErrorClient([
-                        'code' => Response::HTTP_BAD_REQUEST,
-                        'message' => $exc->getMessage()
+                        'transaction' => [$exc->getMessage()]
             ]);
         } catch (\Exception $exc) {
             return $this->responseErrorServer([

@@ -23,18 +23,8 @@ class SellerTest extends TestCase
 
     public function testCreateSellerData()
     {
-        $typeLojista = UserType::create([
-                    'type_name' => UserType::TYPE_LOJISTA
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_LOJISTA]);
         
-        $userFake = $this->userFactory->make();
-        $userFake->id_type = $typeLojista->id;
-
-        $userData = $userFake->toArray();
-        $userData['password'] = 'teste123';
-
-        $user = User::create($userData);
+        $user = $this->createUserByType(UserType::TYPE_LOJISTA);
 
         $responseData = $this->sellerRepository->create([
             'cnpj' => '56458452000148',
@@ -49,27 +39,11 @@ class SellerTest extends TestCase
 
     public function testCreateSellerDuplicateCnpj()
     {
-        $typeLojista = UserType::create([
-                    'type_name' => UserType::TYPE_LOJISTA
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_LOJISTA]);
-        
-        $userFake = $this->userFactory->make();
-        $userFake->id_type = $typeLojista->id;
-
-        $userData = $userFake->toArray();
-        $userData['password'] = 'teste123';
-
-        $user = User::create($userData);
+        $user = $this->createUserByType(UserType::TYPE_LOJISTA);
 
         $responseData = $this->sellerRepository->create([
             'cnpj' => '56458452000148',
             'id_user' => $user->id
-        ]);
-
-        $this->seeInDatabase('sellers', [
-            'cnpj' => $responseData['cnpj'],
-            'id_user' => $responseData['id_user'],
         ]);
 
         $this->json('POST', '/users/sellers', $responseData)
@@ -81,19 +55,7 @@ class SellerTest extends TestCase
 
     public function testCreateSellerInvalidType()
     {
-        $typeComum = UserType::create([
-                    'type_name' => UserType::TYPE_COMUM
-        ]);
-        $this->seeInDatabase('users_types', ['type_name' => UserType::TYPE_COMUM]);
-
-        $user = User::create([
-                    'full_name' => 'user comum',
-                    'email' => 'usercomum1@email.com',
-                    'cpf' => '89545612321',
-                    'password' => 'teste123',
-                    'balance' => 100,
-                    'id_type' => $typeComum->id
-        ]);
+        $user = $this->createUserByType(UserType::TYPE_COMUM);
 
         $this->json('POST', '/users/sellers', [
                     'cnpj' => '56458452000148',
@@ -101,9 +63,23 @@ class SellerTest extends TestCase
                 ])
                 ->seeStatusCode(Response::HTTP_BAD_REQUEST)
                 ->seeJsonEquals([
-                    'code' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'User must be a user type lojista',
+                    'id_user' => ['User must be a user type lojista'],
         ]);
+    }
+    
+    private function createUserByType(string $typeName)
+    {
+        $typeComum = UserType::create([
+                    'type_name' => $typeName
+        ]);
+
+        $userFake = $this->userFactory->make();
+        $userFake->id_type = $typeComum->id;
+
+        $userData = $userFake->toArray();
+        $userData['password'] = 'teste123';
+
+        return User::create($userData);
     }
 
 }
