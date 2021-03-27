@@ -43,13 +43,13 @@ POST `/users`
 #### Response 400
 ```json
 {
-	"email": [
-	  "The email has already been taken."
-	],
-	"cpf": [
-	  "The cpf has already been taken.",
-      "The cpf must be at least 11 characters."
-	]
+    "email": [
+        "The email has already been taken."
+    ],
+    "cpf": [
+        "The cpf has already been taken.",
+	"The cpf must be at least 11 characters."
+    ]
 }
 ```
 
