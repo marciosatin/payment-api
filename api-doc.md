@@ -178,7 +178,7 @@ POST `/transactions`
     ],
     "payee_id": [
         "The selected payee id is invalid."
-    ]
+    ],
     "value": [
         "The value must be greater than 0."
     ]
