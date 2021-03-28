@@ -88,7 +88,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"cnpj\": \"77583428000139\",\n    \"id_user\": 3\n}"
+					"raw": "{\n    \"cnpj\": \"77583428000139\",\n    \"id_user\": 2\n}"
 				},
 				"url": {
 					"raw": "http://localhost/users/sellers",
