@@ -6,6 +6,8 @@ Api de pagamento entre usuários comuns e lojistas utilizando o microframework l
 
 A documentação da api pode ser acessada em [documentação](./api-doc.md)
 
+Faça o download da collection do Postman em [collection](./payment_api_postman_collection.json)
+
 ## Como instalar
 
 Na raíz do projeto rode o comando `docker-compose up --build -d` para criar os containers

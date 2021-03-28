@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "d2c32501-1449-48ac-a6e6-d92ba702c484",
+		"name": "Payment Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create comum user - /users/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"full_name\": \"User teste comum\",\n    \"email\": \"comum1@comum.com.br\",\n    \"password\": \"teste2\",\n    \"balance\": 10,\n    \"cpf\": \"13158097021\",\n    \"id_type\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"users",
+						""
+					]
+				},
+				"description": "Create comum user "
+			},
+			"response": []
+		},
+		{
+			"name": "Create lojista user - /users/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"full_name\": \"User teste lojista\",\n    \"email\": \"lojista1@lojista.com.br\",\n    \"password\": \"teste2\",\n    \"balance\": 10,\n    \"cpf\": \"44512487554\",\n    \"id_type\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"users",
+						""
+					]
+				},
+				"description": "Cadastrar user lojista"
+			},
+			"response": []
+		},
+		{
+			"name": "Create data lojista - /users/sellers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cnpj\": \"77583428000139\",\n    \"id_user\": 3\n}"
+				},
+				"url": {
+					"raw": "http://localhost/users/sellers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"users",
+						"sellers"
+					]
+				},
+				"description": "Create a lojista data "
+			},
+			"response": []
+		},
+		{
+			"name": "Create a transaction - /transactions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"payer_id\": 1,\n    \"payee_id\": 2,\n    \"value\": 5\n}"
+				},
+				"url": {
+					"raw": "http://localhost/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"transactions"
+					]
+				},
+				"description": "Create a transaction"
+			},
+			"response": []
+		},
+		{
+			"name": "Ger user info - /users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Get users"
+			},
+			"response": []
+		},
+		{
+			"name": "Ger user info  for id - /users/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				},
+				"description": "Get users"
+			},
+			"response": []
+		}
+	]
+}
